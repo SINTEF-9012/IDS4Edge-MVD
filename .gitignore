@@ -9,3 +9,6 @@ out/
 
 .terraform*
 *terraform.tfstate*
+
+#Ingoring the .class files
+*.class

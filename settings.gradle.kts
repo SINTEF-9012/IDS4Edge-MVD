@@ -43,6 +43,8 @@ include(":extensions:superuser-seed")
 //include(":tests:performance")
 include(":tests:end2end")
 
+include("extensions:custom-monitor")
+
 // launcher modules
 include(":launchers:identity-hub")
 include(":launchers:controlplane")
@@ -50,3 +52,4 @@ include(":launchers:dataplane")
 include(":launchers:runtime-embedded")
 include(":launchers:catalog-server")
 include(":launchers:sts")
+

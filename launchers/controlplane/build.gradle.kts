@@ -19,6 +19,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":extensions:custom-monitor"))
     implementation(project(":extensions:did-example-resolver"))
     implementation(project(":extensions:dcp-impl")) // some patches/impls for DCP
     runtimeOnly(project(":extensions:catalog-node-resolver")) // to trigger the federated catalog
