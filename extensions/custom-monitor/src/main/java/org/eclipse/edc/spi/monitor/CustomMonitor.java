@@ -25,70 +25,23 @@ package org.eclipse.edc.spi.monitor;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.function.Supplier;
 
 /**
  * Custom monitor implementation. Outputs the function caller class name to the console.
  */
-public class CustomMonitor implements Monitor {
-
-    private static final String SEVERE = "SEVERE";
-    private static final String WARNING = "WARNING";
-    private static final String INFO = "INFO";
-    private static final String DEBUG = "DEBUG";
-
-    private final boolean useColor;
-
-    private final Level level;
-    private final String prefix;
+public class CustomMonitor extends ConsoleMonitor {
 
     public CustomMonitor() {
-        this(true);
+        super();
     }
 
-    public CustomMonitor(boolean useColor) {
-        this(null, Level.DEBUG, useColor);
-    }
-
-    public CustomMonitor(@Nullable String runtimeName, Level level) {
-        this(runtimeName, level, true);
+    public CustomMonitor(Level level, boolean useColor) {
+        super(level, useColor);
     }
 
     public CustomMonitor(@Nullable String runtimeName, Level level, boolean useColor) {
-        this.prefix = runtimeName == null ? "" : "[%s] ".formatted(runtimeName);
-        this.level = level;
-        this.useColor = useColor;
-    }
-
-    @Override
-    public void severe(Supplier<String> supplier, Throwable... errors) {
-        output(SEVERE, supplier, errors);
-    }
-
-    @Override
-    public void warning(Supplier<String> supplier, Throwable... errors) {
-        if (Level.WARNING.value < level.value) {
-            return;
-        }
-        output(WARNING, supplier, errors);
-    }
-
-    @Override
-    public void info(Supplier<String> supplier, Throwable... errors) {
-        if (Level.INFO.value < level.value) {
-            return;
-        }
-        output(INFO, supplier, errors);
-    }
-
-    @Override
-    public void debug(Supplier<String> supplier, Throwable... errors) {
-        if (Level.DEBUG.value < level.value) {
-            return;
-        }
-        output(DEBUG, supplier, errors);
+        super(runtimeName, level, useColor);
     }
 
     private static String getCallerClassName() {
@@ -105,44 +58,27 @@ public class CustomMonitor implements Monitor {
         return null;
     }
 
-    private void output(String level, Supplier<String> supplier, Throwable... errors) {
-        var time = ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        var colorCode = useColor ? getColorCode(level) : "";
-        var resetCode = useColor ? ConsoleColor.RESET : "";
-
-        //print the caller class name surrounded by square brackets
-        System.out.println("%s[%s]".formatted(colorCode, getCallerClassName()));
-
-        //System.out.println(colorCode + getCallerClassName());
-        System.out.println(colorCode + prefix + level + " " + time + " " + sanitizeMessage(supplier) + resetCode);
-        if (errors != null) {
-            for (var error : errors) {
-                if (error != null) {
-                    System.out.print(colorCode);
-                    error.printStackTrace(System.out);
-                    System.out.print(resetCode);
-                }
-            }
-        }
+    @Override
+    public void warning(Supplier<String> supplier, Throwable... errors) {
+        System.out.println("[%s]".format(getCallerClassName()));
+        super.warning(supplier, errors);
     }
 
-    private String getColorCode(String level) {
-        return switch (level) {
-            case SEVERE -> ConsoleColor.RED;
-            case WARNING -> ConsoleColor.YELLOW;
-            case INFO -> ConsoleColor.GREEN;
-            case DEBUG -> ConsoleColor.BLUE;
-            default -> "";
-        };
+    @Override
+    public void info(Supplier<String> supplier, Throwable... errors) {
+        System.out.println("[%s]".format(getCallerClassName()));
+        super.info(supplier, errors);
     }
 
-    public enum Level {
-        SEVERE(3), WARNING(2), INFO(1), DEBUG(0);
+    @Override
+    public void debug(Supplier<String> supplier, Throwable... errors) {
+        System.out.println("[%s]".format(getCallerClassName()));
+        super.debug(supplier, errors);
+    }
 
-        private final int value;
-
-        Level(int value) {
-            this.value = value;
-        }
+    @Override
+    public void severe(Supplier<String> supplier, Throwable... errors) {
+        System.out.println("[%s]".format(getCallerClassName()));
+        super.severe(supplier, errors);
     }
 }
