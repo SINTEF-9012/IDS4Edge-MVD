@@ -19,6 +19,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":extensions:custom-monitor"))
     runtimeOnly(libs.bundles.identityhub)
     runtimeOnly(libs.edc.api.observability)
     if (project.properties.getOrDefault("persistence", "false") == "true") {

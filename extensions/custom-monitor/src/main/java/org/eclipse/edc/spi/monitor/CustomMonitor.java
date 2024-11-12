@@ -21,10 +21,8 @@
  *   SOFTWARE.
  */
 
-package no.sintef.ids4edge.runtime;
+package org.eclipse.edc.spi.monitor;
 
-import org.eclipse.edc.spi.monitor.ConsoleColor;
-import org.eclipse.edc.spi.monitor.Monitor;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.ZonedDateTime;
@@ -97,7 +95,10 @@ public class CustomMonitor implements Monitor {
         StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
         for (int i = 1; i < stElements.length; i++) {
             StackTraceElement ste = stElements[i];
-            if (!ste.getClassName().equals(CustomMonitor.class.getName()) && !ste.getClassName().equals(Monitor.class.getName()) && ste.getClassName().indexOf("java.lang.Thread") != 0) {
+            if (!ste.getClassName().equals(CustomMonitor.class.getName()) &&
+                    !ste.getClassName().equals(Monitor.class.getName()) &&
+                    !ste.getClassName().equals(PrefixMonitor.class.getName()) &&
+                    ste.getClassName().indexOf("java.lang.Thread") != 0) {
                 return ste.getClassName() + "." + ste.getMethodName() + ":" + ste.getLineNumber();
             }
         }

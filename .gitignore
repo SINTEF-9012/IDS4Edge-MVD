@@ -12,3 +12,6 @@ out/
 
 #Ingoring the .class files
 *.class
+
+#Ingoring the any bin directory
+bin/

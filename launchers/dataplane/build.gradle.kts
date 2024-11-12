@@ -19,6 +19,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":extensions:custom-monitor"))
     runtimeOnly(libs.bundles.connector)
     runtimeOnly(libs.edc.api.observability)
     runtimeOnly(libs.edc.dataplane.core)

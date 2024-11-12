@@ -19,6 +19,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":extensions:custom-monitor"))
     implementation(project(":extensions:did-example-resolver"))
     implementation(project(":extensions:dcp-impl"))
 

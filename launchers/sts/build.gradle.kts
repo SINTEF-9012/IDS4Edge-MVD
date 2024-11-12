@@ -20,6 +20,7 @@ plugins {
 
 
 dependencies {
+    implementation(project(":extensions:custom-monitor"))
     runtimeOnly(libs.bundles.connector)
     runtimeOnly(libs.bundles.sts)
     runtimeOnly(libs.edc.sts.api.accounts)
