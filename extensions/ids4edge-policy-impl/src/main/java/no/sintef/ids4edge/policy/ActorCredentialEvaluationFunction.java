@@ -1,12 +1,13 @@
 package no.sintef.ids4edge.policy;
 
-//import org.eclipse.edc.participant.spi.ParticipantAgentPolicyContext;
+
+import org.eclipse.edc.participant.spi.ParticipantAgentPolicyContext;
 import org.eclipse.edc.policy.engine.spi.AtomicConstraintRuleFunction;
-import org.eclipse.edc.policy.engine.spi.PolicyContext;
+//import org.eclipse.edc.policy.engine.spi.PolicyContext;
 import org.eclipse.edc.policy.model.Operator;
 import org.eclipse.edc.policy.model.Permission;
 
-public class ActorCredentialEvaluationFunction<C extends PolicyContext> extends AbstractCredentialEvaluationFunction implements AtomicConstraintRuleFunction<Permission, C> {
+public class ActorCredentialEvaluationFunction<C extends ParticipantAgentPolicyContext> extends AbstractCredentialEvaluationFunction implements AtomicConstraintRuleFunction<Permission, C> {
 
     private static final String ACTOR_CREDENTIAL_NAMESPACE = "https://w3id.org/actor/credentials/";
     private static final String ACTOR_CONSTRAIN_KEY = "ActorCredential";
@@ -18,17 +19,17 @@ public class ActorCredentialEvaluationFunction<C extends PolicyContext> extends 
     private ActorCredentialEvaluationFunction() {
     }
 
-    public static <C extends PolicyContext> ActorCredentialEvaluationFunction<C> create() {
+    public static <C extends ParticipantAgentPolicyContext> ActorCredentialEvaluationFunction<C> create() {
         return new ActorCredentialEvaluationFunction<>() {
         };
     }
 
     @Override
     public boolean evaluate(Operator operator, Object rightValue, Permission rule, C context) {
-        System.out.println("ActorCredentialEvaluationFunction.evaluate");
-        System.out.println("Context: " + context);
+        //System.out.println("ActorCredentialEvaluationFunction.evaluate");
+        //System.out.println("Context: " + context);
 
-        /*if (!operator.equals(Operator.EQ)) {
+        if (!operator.equals(Operator.EQ)) {
             context.reportProblem("Invalid operator '%s', only accepts '%s'".formatted(operator, Operator.EQ));
             return false;
         }
@@ -55,7 +56,6 @@ public class ActorCredentialEvaluationFunction<C extends PolicyContext> extends 
                             return actorType != null &&
                                     actorType.equals(rightValue);
                         }
-                ); */
-        return true;
+                );
     }
 }

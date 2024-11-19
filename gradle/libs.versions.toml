@@ -51,6 +51,7 @@ edc-api-control-configuration = { module = "org.eclipse.edc:control-api-configur
 edc-dsp = { module = "org.eclipse.edc:dsp", version.ref = "edc" }
 edc-edr-storereceiver = { module = "org.eclipse.edc:edr-store-receiver", version.ref = "edc" }
 edc-policy-monitor = { module = "org.eclipse.edc:policy-monitor-core", version.ref = "edc" }
+edc-configuration-filesystem = { module = "org.eclipse.edc:configuration-filesystem", version.ref = "edc" }
 
 edc-controlplane-callback-dispatcher-event = { module = "org.eclipse.edc:callback-event-dispatcher", version.ref = "edc" }
 edc-controlplane-callback-dispatcher-http = { module = "org.eclipse.edc:callback-http-dispatcher", version.ref = "edc" }

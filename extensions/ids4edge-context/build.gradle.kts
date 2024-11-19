@@ -17,13 +17,7 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.edc.policy.monitor)
-    implementation(libs.edc.dcp.core)
-    implementation(libs.edc.spi.identity.trust)
-    implementation(libs.edc.spi.transform)
-    implementation(libs.edc.spi.catalog)
-    implementation(libs.edc.spi.identity.did)
-    implementation(libs.edc.lib.jws2020)
-    implementation(libs.edc.lib.transform)
-    implementation(project(":extensions:ids4edge-context"))
+    implementation(libs.edc.core.connector)
+    //implementation(libs.edc.configuration.filesystem)
+
 }

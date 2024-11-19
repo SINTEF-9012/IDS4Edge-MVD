@@ -43,9 +43,6 @@ include(":extensions:superuser-seed")
 //include(":tests:performance")
 include(":tests:end2end")
 
-include("extensions:custom-monitor")
-include("extensions:ids4edge-policy-impl")
-
 // launcher modules
 include(":launchers:identity-hub")
 include(":launchers:controlplane")
@@ -53,3 +50,8 @@ include(":launchers:dataplane")
 include(":launchers:runtime-embedded")
 include(":launchers:catalog-server")
 include(":launchers:sts")
+
+//ids4edge extensions
+include("extensions:custom-monitor")
+include("extensions:ids4edge-policy-impl")
+include("extensions:ids4edge-context")

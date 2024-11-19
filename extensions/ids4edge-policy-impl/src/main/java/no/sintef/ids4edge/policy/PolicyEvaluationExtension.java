@@ -15,10 +15,11 @@
 package no.sintef.ids4edge.policy;
 
 
+import no.sintef.ids4edge.context.spi.Ids4EdgeContext;
 import org.eclipse.edc.connector.controlplane.catalog.spi.policy.CatalogPolicyContext;
 import org.eclipse.edc.connector.controlplane.contract.spi.policy.ContractNegotiationPolicyContext;
 import org.eclipse.edc.connector.controlplane.contract.spi.policy.TransferProcessPolicyContext;
-import org.eclipse.edc.connector.policy.monitor.spi.PolicyMonitorContext;
+//import org.eclipse.edc.connector.policy.monitor.spi.PolicyMonitorContext;
 import org.eclipse.edc.policy.engine.spi.AtomicConstraintRuleFunction;
 import org.eclipse.edc.policy.engine.spi.PolicyContext;
 import org.eclipse.edc.policy.engine.spi.PolicyEngine;
@@ -39,6 +40,9 @@ public class PolicyEvaluationExtension implements ServiceExtension {
     @Inject
     private RuleBindingRegistry ruleBindingRegistry;
 
+    @Inject
+    private Ids4EdgeContext ids4EdgeContext;
+
     @Override
     public void initialize(ServiceExtensionContext context) {
         registerActorCredentialEvaluationFunction();
@@ -52,7 +56,7 @@ public class PolicyEvaluationExtension implements ServiceExtension {
         bindPermissionFunction(ActorCredentialEvaluationFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, actorKey);
         bindPermissionFunction(ActorCredentialEvaluationFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, actorKey);
 
-        bindPermissionFunction(ActorCredentialEvaluationFunction.create(), PolicyMonitorContext.class, PolicyMonitorContext.POLICY_MONITOR_SCOPE,  actorKey);
+        //bindPermissionFunction(ActorCredentialEvaluationFunction.create(), PolicyMonitorContext.class, PolicyMonitorContext.POLICY_MONITOR_SCOPE,  actorKey);
     }
 
     private <C extends PolicyContext> void bindPermissionFunction(AtomicConstraintRuleFunction<Permission, C> function, Class<C> contextClass, String scope, String constraintType) {

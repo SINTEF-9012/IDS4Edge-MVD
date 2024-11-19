@@ -22,7 +22,7 @@ dependencies {
     implementation(project(":extensions:custom-monitor"))
     implementation(project(":extensions:did-example-resolver"))
     implementation(project(":extensions:dcp-impl"))
-    implementation(project(":extensions:ids4edge-policy-impl"))
+    //implementation(project(":extensions:ids4edge-policy-impl"))
 
     runtimeOnly(libs.bundles.connector) // base runtime
     runtimeOnly(libs.edc.api.management)

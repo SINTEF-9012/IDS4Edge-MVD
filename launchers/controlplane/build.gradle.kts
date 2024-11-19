@@ -23,6 +23,7 @@ dependencies {
     implementation(project(":extensions:did-example-resolver"))
     implementation(project(":extensions:dcp-impl")) // some patches/impls for DCP
     implementation(project(":extensions:ids4edge-policy-impl"))
+    implementation(project(":extensions:ids4edge-context"))
     runtimeOnly(project(":extensions:catalog-node-resolver")) // to trigger the federated catalog
     implementation(libs.edc.spi.core) // we need some constants
 
