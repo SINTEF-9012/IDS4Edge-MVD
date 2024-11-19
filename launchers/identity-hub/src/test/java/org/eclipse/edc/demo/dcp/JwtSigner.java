@@ -131,7 +131,17 @@ public class JwtSigner {
 
                     Arguments.of(System.getProperty("user.dir") + "/../../deployment/assets/credentials/local/consumer/unsigned/dataprocessor_vc.json",
                             new File(System.getProperty("user.dir") + "/../../deployment/assets/credentials/local/consumer/dataprocessor-credential.json"),
-                            "did:web:consumer-identityhub%3A7083:alice")
+                            "did:web:consumer-identityhub%3A7083:alice"),
+
+                    Arguments.of(System.getProperty("user.dir") + "/../../deployment/assets/credentials/local/consumer/unsigned/supplier_vc.json",
+                            new File(System.getProperty("user.dir") + "/../../deployment/assets/credentials/local/consumer/supplier-credential.json"),
+                            "did:web:consumer-identityhub%3A7083:alice"),
+
+                    Arguments.of(System.getProperty("user.dir") + "/../../deployment/assets/credentials/local/provider/unsigned/factory_vc.json",
+                            new File(System.getProperty("user.dir") + "/../../deployment/assets/credentials/local/provider/factory-credential.json"),
+                            "did:web:provider-identityhub%3A7083:bob")
+
+
 
             );
         }

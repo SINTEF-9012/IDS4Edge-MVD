@@ -62,7 +62,7 @@ public class IdentityHubExtension implements ServiceExtension {
 
     @Provider
     public ScopeToCriterionTransformer createScopeTransformer() {
-        return new MvdScopeTransformer(List.of("MembershipCredential", "DataProcessorCredential"));
+        return new MvdScopeTransformer(List.of("MembershipCredential", "DataProcessorCredential", "ActorCredential"));
     }
 
     private void seedCredentials(String credentialsSourceDirectory, Monitor monitor) throws IOException {
@@ -83,7 +83,8 @@ public class IdentityHubExtension implements ServiceExtension {
         // filtering for *.json files is advised, because on K8s there can be softlinks, if a directory is mapped via ConfigMap
         Stream.of(files).filter(f -> f.getName().endsWith(".json")).forEach(p -> {
             try {
-                store.create(objectMapper.readValue(p, VerifiableCredentialResource.class));
+                var result = store.create(objectMapper.readValue(p, VerifiableCredentialResource.class));
+                System.out.println(result);
                 monitor.debug("Stored VC from file '%s'".formatted(p.getAbsolutePath()));
             } catch (IOException e) {
                 monitor.severe("Error storing VC", e);
