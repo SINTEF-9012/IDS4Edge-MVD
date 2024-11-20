@@ -20,6 +20,7 @@ import org.eclipse.edc.connector.controlplane.catalog.spi.policy.CatalogPolicyCo
 import org.eclipse.edc.connector.controlplane.contract.spi.policy.ContractNegotiationPolicyContext;
 import org.eclipse.edc.connector.controlplane.contract.spi.policy.TransferProcessPolicyContext;
 //import org.eclipse.edc.connector.policy.monitor.spi.PolicyMonitorContext;
+import org.eclipse.edc.connector.policy.monitor.spi.PolicyMonitorContext;
 import org.eclipse.edc.policy.engine.spi.AtomicConstraintRuleFunction;
 import org.eclipse.edc.policy.engine.spi.PolicyContext;
 import org.eclipse.edc.policy.engine.spi.PolicyEngine;
@@ -45,18 +46,40 @@ public class PolicyEvaluationExtension implements ServiceExtension {
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        registerActorCredentialEvaluationFunction();
+        //registerActorCredentialEvaluationFunction();
+        registerPermissionEvaluationFunction(ActorCredentialEvaluationFunction.ACTOR_CONSTRAIN_KEY, ActorCredentialEvaluationFunction.create(), false);
+        registerDutyEvaluationFunction(SupplierTypeEvaluationFunction.SUPPLIER_TYPE_CONSTRAIN_KEY, SupplierTypeEvaluationFunction.create(), true);
 
     }
 
     private void registerActorCredentialEvaluationFunction() {
-        var actorKey = "ActorCredential.actorType";
+        var actorKey = ActorCredentialEvaluationFunction.ACTOR_CONSTRAIN_KEY;
 
         bindPermissionFunction(ActorCredentialEvaluationFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, actorKey);
         bindPermissionFunction(ActorCredentialEvaluationFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, actorKey);
         bindPermissionFunction(ActorCredentialEvaluationFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, actorKey);
-
         //bindPermissionFunction(ActorCredentialEvaluationFunction.create(), PolicyMonitorContext.class, PolicyMonitorContext.POLICY_MONITOR_SCOPE,  actorKey);
+    }
+
+
+    private <C extends PolicyContext> void registerPermissionEvaluationFunction(String key, AtomicConstraintRuleFunction<Permission, C> function, boolean isMonitor) {
+        bindPermissionFunction(function, (Class<C>) TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, key);
+        bindPermissionFunction(function, (Class<C>) ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, key);
+        bindPermissionFunction(function, (Class<C>) CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, key);
+
+        if (isMonitor) {
+            bindPermissionFunction(function, (Class<C>) PolicyMonitorContext.class, PolicyMonitorContext.POLICY_MONITOR_SCOPE, key);
+        }
+    }
+
+    private <C extends PolicyContext> void registerDutyEvaluationFunction(String key, AtomicConstraintRuleFunction<Duty, C> function, boolean isMonitor) {
+        bindDutyFunction(function, (Class<C>) TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, key);
+        bindDutyFunction(function, (Class<C>) ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, key);
+        bindDutyFunction(function, (Class<C>) CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, key);
+
+        if (isMonitor) {
+            bindDutyFunction(function, (Class<C>) PolicyMonitorContext.class, PolicyMonitorContext.POLICY_MONITOR_SCOPE, key);
+        }
     }
 
     private <C extends PolicyContext> void bindPermissionFunction(AtomicConstraintRuleFunction<Permission, C> function, Class<C> contextClass, String scope, String constraintType) {

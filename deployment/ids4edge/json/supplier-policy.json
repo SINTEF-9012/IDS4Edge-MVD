@@ -15,6 +15,16 @@
           "rightOperand": "Supplier"
         }
       }
+    ],
+    "obligation": [
+      {
+        "action": "use",
+        "constraint": {
+          "leftOperand": "SupplierType",
+          "operator": "eq",
+          "rightOperand": "Red"
+        }
+      }
     ]
   }
 }
